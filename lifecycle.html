@@ -15,50 +15,11 @@
     class Lifecycle extends React.Component {
       constructor(props) {
         super(props);
-        console.log("--contructor--");
-
-        this.state = {
-          loading: true,
-          data: []
-        }
-      }
-
-      componentDidMount() {
-        console.log("--componentDidMount--")
-        const tasks = [
-          {text: "Regar as platinhas"}, 
-          {text: "Tirar a toalha da mochila"}
-        ];
-        
-        setTimeout(() => {
-          this.setState({ 
-            loading: false, 
-            data: tasks
-          });
-        }, 2000);
-      }
-
-      shouldComponentUpdate(nextProps, nextState) {
-        console.log("--shouldComponentUpdate--");
-        console.log(nextProps);
-        console.log(nextState);
-        return true;
-      }
-
-      componentDidUpdate() {
-        console.log("--componentDidUpdate--");
       }
 
       render() {
-        console.log("--render--")
         return (
-          <ul>
-           {
-             this.state.loading
-             ? "Carregando..."
-             : "Carregou"
-           } 
-          </ul>
+          <div></div>
         );
       }
     }
