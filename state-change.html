@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>Document</title>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <style>
+    .my-button {
+      padding: 10px;
+      box-shadow: inset 0px -5px 0px 0px rgba(0,0,0,0.25);
+      border-radius: 5px;
+      color: white;
+      font-size: 1rem;
+
+    }
+
+    .my-button:active {
+      box-shadow: inset 0px -2px 0px 0px rgba(0,0,0,0.25);
+    }
+        
+    .primary-button {
+      background-color: rgb(17, 155, 209);
+    }
+
+    .primary-button:hover {
+      background-color: rgb(13, 133, 180);
+    }
+
+    .danger-button {
+      background-color: rgb(185, 66, 58);
+    }
+
+    .danger-button:hover {
+      background-color: rgb(184, 51, 42);
+    }
+
+    .my-input {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #8ba1b8;
+      font-size: 1rem;
+    }
+
+    .list-item {
+      background-color: #e0e0e0;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25);
+      font-family: Arial, Helvetica, sans-serif;
+      list-style: none;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+
+    function ListItem(props) {
+      return <li className="list-item" >{props.text}</li>
+    }
+
+    function List(props) {
+      return (
+        <ul>
+          {
+            props.items.map((item, index) => {
+               return <ListItem key={index} text={item}/>
+            })
+          }
+        </ul>
+      );
+    }
+
+    function Button(props) {
+      const classes = props.primary ? "primary-button" : "danger-button";
+
+      return <button className={`my-button ${classes}`} onClick={props.onClick}>{props.children}</button>
+    }
+
+    function Input(props) {
+      return <input className="my-input" value={props.value} onChange={props.onChange}/>
+    }
+
+    class StatesChanges extends React.Component {
+      constructor(props) {
+        super(props);
+
+        this.state = {
+          items: [],
+          text: ""
+        }
+
+        this.handleAddClick = this.handleAddClick.bind(this)
+        this.handleRemoveClick = this.handleRemoveClick.bind(this)
+        this.handleInputChange = this.handleInputChange.bind(this)
+      }
+
+      handleInputChange(event) {
+        this.setState({
+          text: event.target.value
+        })
+      }
+
+      handleAddClick() {
+        this.setState((currentState) => {
+          return {
+            text: "",
+            items: currentState.items.concat(currentState.text)
+          } 
+        });
+      }
+
+      handleRemoveClick() {
+        this.setState((currentState) => {
+          return {
+            items: currentState.items.slice(0,-1)
+          }
+        })
+      }
+
+      render() {
+        return (
+          <div>
+            <Input value={this.state.text} onChange={this.handleInputChange} />
+            <Button primary onClick={this.handleAddClick}>
+              Adicionar
+            </Button>
+            <Button danger onClick={this.handleRemoveClick}>
+              Remover
+            </Button>
+            <List items={this.state.items} />
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(
+      <StatesChanges />,
+      document.getElementById("app")
+    )
+  </script>
+</body>
+</html>
+
+<!-- 
+
+lifecycle with state change
+
+// click add and click remove
+
+// on input change
+
+// this .bind -->
