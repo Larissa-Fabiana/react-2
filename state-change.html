@@ -58,6 +58,36 @@
   <div id="app"></div>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
+
+    function Button(props) {
+      let classes = '';
+      if (props.primary) {
+        classes = 'primary-button';
+      }else if (props.danger) {
+        classes = 'danger-button';
+      }
+      return <button className={`my-button ${classes}`} onClick={props.onClick}>{props.children}</button>;
+    }
+
+    function Input(props){
+      return <input className='my-input' value={props.text} onChange={props.onChange}/>
+    }
+
+    function List (props){
+      return (
+        <ul>
+          { props.items.map((item, index) =>{
+              return <ListItem key={index} item={item}/>
+            }) 
+          }
+        </ul>
+      )
+    }
+
+    function ListItem(props){
+      return <li className='list-item'>{props.item}</li>
+    }
+
     class StatesChanges extends React.Component {
       constructor(props) {
         super(props);
@@ -66,26 +96,43 @@
           items: [],
           inputText: ""
         }
+
+        this.handleAddClick = this.handleAddClick.bind(this);
+        this.handleRemoveClick = this.handleRemoveClick.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
       }
 
       handleInputChange(event) {
+        this.setState({inputText: event.target.value})
+        console.log(event.target.value);
       }
 
       handleAddClick() {
+        // console.log(this);
+        this.setState((prevState) =>{
+          // console.log(prevState.items)
+          return {
+            items: prevState.items.concat([prevState.inputText]),
+            inputText: ''
+          };
+        });
       }
 
       handleRemoveClick() {
+        this.setState((prevState) =>{
+          // console.log(prevState.items)
+          return {items: prevState.items.slice(0, -1)}
+        });
       }
 
       render() {
+        // console.log(this)
         return (
           <div>
-            <input />
-            <button>Adicionar</button>
-            <button>Remover</button>
-            <div>
-              { this.state.items }
-            </div>
+            <Input text={this.state.inputText} onChange={this.handleInputChange}/>
+            <Button primary onClick={this.handleAddClick}>Adicionar</Button>
+            <Button danger onClick={this.handleRemoveClick}>Remover</Button>
+            <List items={this.state.items}/>
           </div>
         );
       }
@@ -98,3 +145,6 @@
   </script>
 </body>
 </html>
+<!-- <input className='my-input' value={this.state.inputText} onChange={this.handleInputChange}/> -->
+<!-- <button className='my-button primary-button' onClick={this.handleAddClick}>Adicionar</button> -->
+<!-- <button className='my-button danger-button' onClick={this.handleRemoveClick}>Remover</button> -->

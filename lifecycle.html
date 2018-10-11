@@ -15,11 +15,46 @@
     class Lifecycle extends React.Component {
       constructor(props) {
         super(props);
+        console.log('---constructor---')
+        this.state = {
+          loading: true,
+          items: []
+        }
       }
 
+      // fazer request da api
+      componentDidMount(){
+        console.log('---componentdidmount---')
+        setTimeout(() => {
+          this.setState({
+            loading: true,
+            items: []
+          })
+        }, 5000);
+      }
+
+      // o default é true e serve só para ver se vai ou não terminar o fluxo
+      // shouldComponentUpdate(){
+      //   console.log('---shouldcomponentupdate---');
+      //   return true;
+      //  or return false;
+      // }
+
+      //   se quando muda precisa fazer uma atualização 
+      // componentDidUpdate(){
+      //   console.log('---componentdidupdate---')
+      // }
+
       render() {
+        console.log('---render---')
         return (
-          <div></div>
+          <div>
+          {
+            this.state.loading
+            ? 'carregando ...'
+            : 'carregou uhul'
+          }
+          </div>
         );
       }
     }
